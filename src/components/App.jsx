@@ -16,8 +16,6 @@ import { Editor } from './Editor';
 import { useInputText, useInputFloat } from '../hooks/useGeekofia';
 import useLocalStorage from '../hooks/useLocalStorage';
 
-// icons
-import { MdMoreHoriz } from 'react-icons/md';
 // css
 import styles from './App.module.sass';
 import { LogsContainer } from './LogsContainer';
@@ -29,10 +27,12 @@ const scrollToBottom = (bottomRef) => {
 
 const App = () => {
 	const [theme, bindTheme] = useInputText('vs-dark');
+	// const [saveToLocalStorage, bindSaveToLocalStorage] = useInputText('dsls');
 	const [fontSize, bindFontSize] = useInputFloat(16);
-	const [js, setJs] = useLocalStorage('');
+	const [js, setJs] = useState('');
 	const [srcDoc, setSrcDoc] = useState('');
 	const iframeRef = useRef(null);
+	const dlRef = useRef(null);
 
 	useEffect(() => {
 		// Listen for messages
@@ -72,6 +72,17 @@ const App = () => {
 			`);
 	};
 
+	const handleSave = () => {
+		const element = document.createElement('a');
+		const file = new Blob([js], {
+			type: 'text/plain;charset=utf-8'
+		});
+		element.href = URL.createObjectURL(file);
+		element.download = `js_${Date.now()}.js`;
+		dlRef.current.appendChild(element);
+		element.click();
+	};
+
 	return (
 		<div className={styles.app}>
 			<div className={styles.toolbar}>
@@ -80,26 +91,38 @@ const App = () => {
 				</div>
 				<div className={styles.options}>
 					<div className={styles.option_div}>
-						<button
-							className={cx(styles.btn, styles.clear)}
-							onClick={handleRun}
-						>
+						<button className={cx(styles.btn, styles.run)} onClick={handleRun}>
 							Run
 						</button>
 					</div>
+
 					<div className={styles.option_div}>
+						<button
+							className={cx(styles.btn, styles.save)}
+							onClick={handleSave}
+							ref={dlRef}
+						>
+							save as file
+						</button>
+					</div>
+					<div className={styles.option_div}>
+						{/* <p>Theme</p> */}
 						<select type="text" {...bindTheme}>
 							<option value="vs">Visual Studio Light</option>
 							<option value="vs-dark">Visual Studio Dark</option>
 							<option value="hc-black">High Contrast Dark</option>
 						</select>
 					</div>
+					{/* <div className={styles.option_div}>
+						<select type="text" {...bindSaveToLocalStorage}>
+							<option value="dsls">Don&apos;t Save to Local Storage</option>
+							<option value="sls">Save to Local Storage</option>
+						</select>
+					</div> */}
 					<div className={styles.option_div}>
 						<p>Font Size</p>
 						<input type="number" {...bindFontSize} />
 					</div>
-
-					<MdMoreHoriz className={cx(styles.more)} />
 				</div>
 			</div>
 			<div className={styles.container}>
