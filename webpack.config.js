@@ -7,13 +7,43 @@ Copyright (c) Geekofia 2020 and beyond
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
+const path = require('path');
+const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = {
+	entry: {
+		app: './src/index.jsx'
+	},
+	resolve: {
+		extensions: ['*', '.js', '.jsx', '.scss', '.sass']
+	},
+	devServer: {
+		hot: true
+	},
+	output: {
+		globalObject: 'self',
+		filename: '[name].bundle.js',
+		path: path.resolve(__dirname, 'dist')
+	},
 	module: {
 		rules: [
+			{
+				test: /\.css$/,
+				use: ['style-loader', 'css-loader']
+			},
+			{
+				test: /\.ttf$/,
+				use: ['file-loader']
+			},
+			{
+				test: /\.worker\.js$/,
+				exclude: /node_modules/,
+				use: ['worker-loader']
+			},
 			// Files: js/jsx,
 			// Pipes: babel-loader
 			{
@@ -71,6 +101,7 @@ module.exports = {
 		]
 	},
 	plugins: [
+		new MonacoWebpackPlugin(),
 		new HtmlWebPackPlugin({
 			template: './public/index.html',
 			filename: './index.html',
@@ -87,8 +118,5 @@ module.exports = {
 				}
 			]
 		})
-	],
-	resolve: {
-		extensions: ['.js', '.jsx', '.scss', '.sass']
-	}
+	]
 };
