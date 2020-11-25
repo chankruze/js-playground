@@ -1,15 +1,131 @@
-$background_color: #252525
+$app_background_color: #1E1E1E
+$console_background_color: rgb(27, 27, 27)
+$toolbar_background_color: rgb(27, 27, 27)
+$toolbar_border_color: #2c2c2c
+$button_background_color:  rgb(65, 65, 65)
 
 .app
-    color: #ffffff
-    background: $background_color
+    color: #fff
     height: 100vh
+    width: 100vw
+    overflow: hidden
     display: flex
     flex-direction: column
-    justify-content: center
-    align-items: center
+    background-color: $app_background_color
 
-    .desc
-        color: #00d9ff
-        font-size: 1.2rem
-        text-align: center
+    .toolbar
+        height: 3rem
+        background: $toolbar_background_color
+        padding: 0.25rem 1rem
+        // box-shadow: 0 2px 4px rgb(0, 0, 0)
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: center
+        border-bottom: 1px solid $toolbar_border_color
+
+        .brand
+            display: flex
+            align-items: center
+
+            p
+                font-size: 1.4rem
+                line-height: 1.4rem
+                font-weight: normal
+                font-family: 'Pacifico', cursive
+                color: #ff008c
+
+        .options
+            display: flex
+            flex-direction: row
+            align-items: center
+
+            .option_div
+                display: flex
+                align-items: center
+                margin-right: 0.5rem
+                margin-left: 0.5rem
+
+                p
+                    margin-right: 0.5rem
+                    font-family: 'Nunito Sans', sans-serif
+                    font-weight: 300
+
+                input
+                    border: 0
+                    padding: 0.25rem
+                    width: 3rem
+                    font-size: 1.1rem
+                    border-radius: 0.125rem
+                    background: rgb(248, 186, 104)
+                    font-family: 'Nunito Sans', sans-serif
+                    font-weight: 400
+
+                select
+                    color: #fff
+                    background: $button_background_color
+                    padding: 0.25rem 0.5rem
+                    border: 0
+                    outline: 0
+                    font-size: 1rem
+                    border-radius: 0.125rem
+                    margin-right: 1rem
+                    font-family: 'Nunito Sans', sans-serif
+                    font-weight: 300
+                    font-style: italic
+                    height: 2.2rem
+                    cursor: pointer
+
+            .btn
+                height: 2.2rem
+                color: #fff
+                background: rgb(65, 65, 65)
+                padding: 0.25rem 0.5rem
+                padding: 0.25rem 0.5rem
+                cursor: pointer
+                border: none
+                font-size: 1rem
+                border-radius: 0.125rem
+                font-family: 'Nunito Sans', sans-serif
+                font-weight: 400
+                transition: all 200ms ease-in-out
+
+            .clear
+                text-transform: uppercase
+                font-size: 0.8rem
+                letter-spacing: 1px
+
+                &:hover
+                    background: #181818
+
+            .more
+                color: #00ffaa
+                margin-left: 1rem
+                font-size: 3rem
+                padding: 0.25rem
+                cursor: pointer
+
+    .container
+        flex: 1
+        display: flex
+        flex-direction: row
+        overflow-x: hidden
+        overflow-y: auto
+
+        .left_pane_rnd
+            height: 100% !important
+            overflow: hidden
+            position: relative !important
+            min-width: 30% !important
+            max-width: calc(100% - 0.5rem) !important
+
+        .console
+            flex-grow: 1
+            min-width: 1rem
+            background: $console_background_color
+            display: flex
+            flex-direction: column
+            overflow-y: auto
+
+            .logs_container
+                flex: 1
