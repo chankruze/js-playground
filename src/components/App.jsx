@@ -28,7 +28,7 @@ const scrollToBottom = (bottomRef) => {
 const App = () => {
 	const [theme, bindTheme] = useInputText('vs-dark');
 	// const [saveToLocalStorage, bindSaveToLocalStorage] = useInputText('dsls');
-	const [fontSize, bindFontSize] = useInputFloat(16);
+	const [fontSize, setFontSize] = useLocalStorage('font_size', 16);
 	const [js, setJs] = useState('');
 	const [srcDoc, setSrcDoc] = useState('');
 	const iframeRef = useRef(null);
@@ -121,7 +121,11 @@ const App = () => {
 					</div> */}
 					<div className={styles.option_div}>
 						<p>Font Size</p>
-						<input type="number" {...bindFontSize} />
+						<input
+							type="number"
+							value={fontSize}
+							onChange={(e) => setFontSize(e.target.value)}
+						/>
 					</div>
 				</div>
 			</div>
